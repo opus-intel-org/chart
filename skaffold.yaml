@@ -1,0 +1,193 @@
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: opus
+profiles:
+  - name: set-trigger-values
+    patches:
+      - op: add
+        path: /deploy/helm/releases/0/setValueTemplates
+        value:
+          "{{.TRIGGER_PROJECT_NAME}}":
+            image:
+              tag: "{{.TRIGGER_COMMIT_SHA}}"
+  - name: production
+    patches:
+      - op: replace
+        path: /deploy/kubeContext
+        value: gke_valay-prod_us-central1-a_valay
+      - op: replace
+        path: /deploy/helm/flags
+        value:
+          install: [ "--post-renderer=./charts/opus/kustomizations/production/us-central/render.sh" ]
+          upgrade: [ "--post-renderer=./charts/opus/kustomizations/production/us-central/render.sh" ]
+      - op: replace
+        path: /deploy/helm/releases/0/name
+        value: stable
+      - op: add
+        path: /deploy/helm/releases/0/valuesFiles/-
+        value: charts/opus/values-production.yaml
+      - op: replace
+        path: /build/local/push
+        value: true
+  - name: test
+    patches:
+      - op: replace
+        path: /deploy/kubeContext
+        value: gke_valay-176920_us-east1-b_valay
+      - op: replace
+        path: /deploy/helm/flags
+        value:
+          install: [ "--post-renderer=./charts/opus/kustomizations/test/us-east/render.sh" ]
+          upgrade: [ "--post-renderer=./charts/opus/kustomizations/test/us-east/render.sh" ]
+      - op: replace
+        path: /deploy/helm/releases/0/name
+        value: beta
+      - op: add
+        path: /deploy/helm/releases/0/valuesFiles/-
+        value: charts/opus/values-test.yaml
+      - op: replace
+        path: /build/local/push
+        value: true
+  - name: minikube
+    patches:
+      - op: replace
+        path: /deploy/kubeContext
+        value: minikube
+  - name: run-migrations
+    patches:
+      - op: add
+        path: /deploy/helm/releases/0/setValueTemplates
+        value:
+          runScripts:
+            migrations: true
+          image:
+            tag: ""
+          "opus-authentication":
+            image:
+              tag: ""
+          "opus-notification":
+            image:
+              tag: ""
+          "opus-user":
+            image:
+              tag: ""
+          "opus-web":
+            image:
+              tag: ""
+  - name: remove-tags
+    patches:
+      - op: add
+        path: /deploy/helm/releases/0/setValueTemplates
+        value:
+          image:
+            tag: ""
+          "opus-authentication":
+            image:
+              tag: ""
+          "opus-notification":
+            image:
+              tag: ""
+          "opus-user":
+            image:
+              tag: ""
+          "opus-web":
+            image:
+              tag: ""
+  - name: add-artifacts
+    patches:
+      - op: add
+        path: /deploy/helm/releases/0/artifactOverrides
+        value:
+          image:
+            repository: opus-setup
+          "opus-authentication":
+            image:
+              repository: opus-authentication
+          "opus-notification":
+            image:
+              repository: opus-notification
+          "opus-user":
+            image:
+              repository: opus-user
+          "opus-web":
+            image:
+              repository: opus-web
+build:
+  local:
+    push: false
+    concurrency: 0
+  artifacts:
+    - image: opus-authentication
+      context: ../opus/authentication
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+    - image: opus-notification
+      context: ../opus/notification
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+    - image: opus-setup
+      context: ../opus/setup
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+    - image: opus-user
+      context: ../opus/user
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+    - image: opus-web
+      context: ../opus/web
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+test:
+# https://jira.mongodb.org/browse/SERVER-62300
+#  - image: opus-authentication
+#    context: ../opus/authentication/server
+#    custom:
+#      - command: node_modules/.bin/jest --silent --runInBand
+  - image: opus-notification
+    context: ../opus/notification/server
+    custom:
+      - command: node_modules/.bin/jest --silent --runInBand
+  - image: opus-user
+    context: ../opus/user/server
+    custom:
+      - command: node_modules/.bin/jest --silent --runInBand
+  - image: opus-web
+    context: ../opus/web/server
+    custom:
+      - command: node_modules/.bin/jest --silent --runInBand
+deploy:
+  statusCheckDeadlineSeconds: 300
+  kubeContext: docker-desktop
+  logs:
+    prefix: podAndContainer
+  helm:
+    flags:
+      install: [ "--post-renderer=./charts/opus/kustomizations/dev/render.sh" ]
+      upgrade: [ "--post-renderer=./charts/opus/kustomizations/dev/render.sh" ]
+    releases:
+      - name: alpha
+        chartPath: charts/opus
+        namespace: opus
+        valuesFiles:
+          - charts/opus/values.yaml
+        setValueTemplates: {}
+        artifactOverrides: {}
+portForward:
+  - resourceType: service
+    resourceName: web
+    namespace: opus-web
+    port: 10001
+    localPort: 8080
+    address: 0.0.0.0
+  - resourceType: service
+    resourceName: alpha-mongo-main
+    namespace: opus
+    port: 27017
+    localPort: 27017
+    address: 0.0.0.0

@@ -1,0 +1,15 @@
+apiVersion: v2
+name: opus
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+maintainers:
+  - name: "moadw"
+icon: "https://www.opus.com/favicon.png"
+dependencies:
+  - name: mongodb
+    alias: mongo-main
+    version: "12.1.15"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: mongo-main.enabled

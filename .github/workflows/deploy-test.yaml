@@ -1,0 +1,28 @@
+name: deploy-test
+on:
+  push:
+    branches:
+      - test
+env:
+  APP_GCLOUD_VERSION: 374.0.0
+  APP_KUBECTL_VERSION: 1.22.5
+  APP_HELM_VERSION: 3.8.0
+  APP_KUSTOMIZE_VERSION: 4.5.2
+  APP_SKAFFOLD_VERSION: 1.38.0
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          version: ${{env.APP_GCLOUD_VERSION}}
+          service_account_key: ${{secrets.GCLOUD_KEY_TEST}}
+          project_id: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
+      - run: (cd /bin && sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v${APP_KUBECTL_VERSION}/bin/linux/amd64/kubectl && sudo chmod +x kubectl)
+      - run: (cd /bin && sudo curl -Lo helm.tar.gz https://get.helm.sh/helm-v${APP_HELM_VERSION}-linux-amd64.tar.gz && sudo tar -zxf helm.tar.gz && sudo mv linux-amd64/helm ./helm)
+      - run: (cd /bin && sudo curl -Lo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${APP_KUSTOMIZE_VERSION}/kustomize_v${APP_KUSTOMIZE_VERSION}_linux_amd64.tar.gz && sudo tar -zxf kustomize.tar.gz && sudo chmod +x kustomize)
+      - run: (cd /bin && sudo curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v${APP_SKAFFOLD_VERSION}/skaffold-linux-amd64 && sudo chmod +x skaffold)
+      - run: helm repo add bitnami https://charts.bitnami.com/bitnami
+      - run: gcloud container clusters get-credentials opus --zone=us-east1-b
+      - run: skaffold deploy -p test --skip-render

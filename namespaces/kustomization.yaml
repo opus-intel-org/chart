@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - opus-namespace.yaml
+  - opus-admin-web-namespace.yaml
+  - opus-authentication-namespace.yaml
+  - opus-notification-namespace.yaml
+  - opus-setup-namespace.yaml
+  - opus-user-namespace.yaml
+  - opus-web-namespace.yaml
