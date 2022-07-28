@@ -1,0 +1,84 @@
+{{- if .Values.runScripts.migrations }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrations
+  namespace: {{ include "opus.namespaceName" . }}
+  labels:
+    {{- include "opus.labels" . | nindent 4 }}
+{{/*  annotations:*/}}
+{{/*    helm.sh/hook: pre-install,pre-upgrade*/}}
+{{/*    helm.sh/hook-weight: "-1"*/}}
+{{/*    helm.sh/hook-delete-policy: hook-succeeded*/}}
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 0
+  manualSelector: true
+  selector:
+    matchLabels:
+      {{- include "opus.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: worker
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "opus.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: worker
+    spec:
+      shareProcessNamespace: true
+      restartPolicy: Never
+      serviceAccountName: {{ include "opus.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: storage-service-account
+          secret:
+            secretName: storage-service-account
+      containers:
+        - name: worker
+          image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          workingDir: /container-app/server
+          command: [ "node","dist/scripts/migrations" ]
+          volumeMounts:
+            - name: storage-service-account
+              mountPath: "/container-app/secrets"
+              readOnly: true
+          ports: []
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          env:
+            - name: GETCONFIG_ROOT
+              value: "/container-app/server/dist/scripts/migrations/config"
+          envFrom:
+            - secretRef:
+                name: config
+            - secretRef:
+                name: mongo-migrations
+            - secretRef:
+                name: mongo-main
+            - secretRef:
+                name: mongo-sessions
+            - secretRef:
+                name: google
+            - secretRef:
+                name: cloudinary
+{{- end }}
