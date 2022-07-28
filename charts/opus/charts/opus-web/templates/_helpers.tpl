@@ -60,3 +60,11 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+namespace to use
+*/}}
+{{- define "opus-web.namespaceName" -}}
+{{ .Release.Namespace }}-{{ include "opus.name" . }}
+{{- end }}
+

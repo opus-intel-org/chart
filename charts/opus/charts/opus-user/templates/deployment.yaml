@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "opus-user.fullname" . }}
+  name: {{ include "opus-user.name" . }}
+  namespace: {{ include "opus-user.namespaceName" . }}
   labels:
     {{- include "opus-user.labels" . | nindent 4 }}
 spec:
@@ -11,6 +12,7 @@ spec:
   selector:
     matchLabels:
       {{- include "opus-user.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: server
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,34 +21,12 @@ spec:
       {{- end }}
       labels:
         {{- include "opus-user.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: server
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      shareProcessNamespace: true
       serviceAccountName: {{ include "opus-user.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -59,3 +39,52 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: storage-service-account
+          secret:
+            secretName: storage-service-account
+      containers:
+        - name: {{ include "opus-user.name" . }}
+          image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          workingDir: /container-app/server
+          command: [ "node","dist/main" ]
+          volumeMounts:
+            - name: storage-service-account
+              mountPath: "/container-app/secrets"
+              readOnly: true
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: {{ .Values.service.port }}
+            - name: grpc
+              protocol: TCP
+              containerPort: {{ .Values.serviceGrpc.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          livenessProbe:
+            exec:
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+          readinessProbe:
+            exec:
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+          startupProbe:
+            exec:
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+          envFrom:
+            - secretRef:
+                name: config
+            - secretRef:
+                name: server-http
+            - secretRef:
+                name: server-grpc
+            - secretRef:
+                name: mongo-main
+            - secretRef:
+                name: cloudinary
+            - secretRef:
+                name: google
+            - secretRef:
+                name: firebase

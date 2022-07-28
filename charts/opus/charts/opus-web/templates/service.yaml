@@ -1,15 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "opus-web.fullname" . }}
+  name: {{ include "opus-web.name" . }}
+  namespace: {{ include "opus-web.namespaceName" . }}
   labels:
     {{- include "opus-web.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
       name: http
+      protocol: TCP
+      appProtocol: http
   selector:
     {{- include "opus-web.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: server

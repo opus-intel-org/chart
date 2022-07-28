@@ -1,15 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "opus-notification.fullname" . }}
+  name: {{ include "opus-notification.name" . }}
+  namespace: {{ include "opus-notification.namespaceName" . }}
   labels:
     {{- include "opus-notification.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
       name: http
+      protocol: TCP
+      appProtocol: http
+    - port: {{ .Values.serviceGrpc.port }}
+      name: grpc
+      protocol: TCP
+      appProtocol: grpc
   selector:
     {{- include "opus-notification.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: server
