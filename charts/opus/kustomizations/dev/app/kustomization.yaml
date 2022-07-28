@@ -1,0 +1,262 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - all.yaml
+generatorOptions:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-3"
+
+patches:
+  - path: migrations-job.yaml
+    target:
+      kind: Job
+      name: migrations
+      namespace: opus-setup
+
+  - path: admin-web-deployment.yaml
+    target:
+      kind: Deployment
+      name: admin-web
+      namespace: opus-admin-web
+
+  - path: authentication-deployment.yaml
+    target:
+      kind: Deployment
+      name: authentication
+      namespace: opus-authentication
+
+  - path: notification-deployment.yaml
+    target:
+      kind: Deployment
+      name: notification
+      namespace: opus-notification
+
+  - path: user-deployment.yaml
+    target:
+      kind: Deployment
+      name: user
+      namespace: opus-user
+
+  - path: web-deployment.yaml
+    target:
+      kind: Deployment
+      name: web
+      namespace: opus-web
+
+secretGenerator:
+  - name: docker-registry-auth
+    namespace: opus-setup
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: storage-service-account
+    namespace: opus-setup
+    files:
+      - files/storage-service-account-key.json
+
+  - name: config
+    namespace: opus-setup
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-setup
+    envs:
+      - env/mongo-main.env
+
+  - name: mongo-migrations
+    namespace: opus-setup
+    envs:
+      - env/mongo-migrations.env
+
+  - name: mongo-sessions
+    namespace: opus-setup
+    envs:
+      - env/mongo-sessions.env
+
+  - name: cloudinary
+    namespace: opus-setup
+    envs:
+      - env/cloudinary.env
+
+  - name: google
+    namespace: opus-setup
+    envs:
+      - env/google.env
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-admin-web
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: config
+    namespace: opus-admin-web
+    envs:
+      - env/config.env
+
+  - name: server-http
+    namespace: opus-admin-web
+    envs:
+      - env/server-http.env
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-authentication
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: config
+    namespace: opus-authentication
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-authentication
+    envs:
+      - env/mongo-main.env
+
+  - name: mongo-sessions
+    namespace: opus-authentication
+    envs:
+      - env/mongo-sessions.env
+
+  - name: server-http
+    namespace: opus-authentication
+    envs:
+      - env/server-http.env
+
+  - name: server-grpc
+    namespace: opus-authentication
+    envs:
+      - env/server-grpc.env
+
+  - name: jwt
+    namespace: opus-authentication
+    envs:
+      - env/jwt.env
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-notification
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: config
+    namespace: opus-notification
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-notification
+    envs:
+      - env/mongo-main.env
+
+  - name: google
+    namespace: opus-notification
+    envs:
+      - env/google.env
+
+  - name: server-http
+    namespace: opus-notification
+    envs:
+      - env/server-http.env
+
+  - name: server-grpc
+    namespace: opus-notification
+    envs:
+      - env/server-grpc.env
+
+  - name: sendgrid
+    namespace: opus-notification
+    envs:
+      - env/sendgrid.env
+
+  - name: firebase
+    namespace: opus-notification
+    envs:
+      - env/firebase.env
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-user
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: storage-service-account
+    namespace: opus-user
+    files:
+      - files/storage-service-account-key.json
+
+  - name: config
+    namespace: opus-user
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-user
+    envs:
+      - env/mongo-main.env
+
+  - name: server-http
+    namespace: opus-user
+    envs:
+      - env/server-http.env
+
+  - name: server-grpc
+    namespace: opus-user
+    envs:
+      - env/server-grpc.env
+
+  - name: cloudinary
+    namespace: opus-user
+    envs:
+      - env/cloudinary.env
+
+  - name: google
+    namespace: opus-user
+    envs:
+      - env/google.env
+
+  - name: firebase
+    namespace: opus-user
+    envs:
+      - env/firebase.env
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-web
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: storage-service-account
+    namespace: opus-web
+    files:
+      - files/storage-service-account-key.json
+
+  - name: config
+    namespace: opus-web
+    envs:
+      - env/config.env
+
+  - name: google
+    namespace: opus-web
+    envs:
+      - env/google.env
+
+  - name: server-http
+    namespace: opus-web
+    envs:
+      - env/server-http.env
+
+  - name: server-grpc
+    namespace: opus-web
+    envs:
+      - env/server-grpc.env
+
+  - name: jwt
+    namespace: opus-web
+    envs:
+      - env/jwt.env

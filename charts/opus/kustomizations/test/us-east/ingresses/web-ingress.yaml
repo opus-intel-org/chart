@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web
+  namespace: opus-web
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    kubernetes.io/ingress.global-static-ip-name: web
+    networking.gke.io/managed-certificates: "web"
+spec:
+  rules:
+    - host: test.opus.com
+      http:
+        paths:
+          - path: "/*"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: web
+                port:
+                  number: 10001

@@ -1,0 +1,10 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: admin-web
+  namespace: opus-admin-web
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+spec:
+  domains:
+    - admin-test.opus.com

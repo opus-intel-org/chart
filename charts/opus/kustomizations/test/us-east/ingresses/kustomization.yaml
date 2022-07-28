@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - all.yaml
+
+  - admin-web-managedcertificate.yaml
+  - admin-web-ingress.yaml
+  - web-managedcertificate.yaml
+  - web-ingress.yaml

@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: does-not-matter
+spec:
+  template:
+    spec:
+      containers:
+        - name: worker
+          env:
+            - name: GETCONFIG_ROOT
+              value: "/container-app/server/dist/scripts/migrations/config"
+            - name: APP_DEV_LOCAL
+              value: "1"
+
