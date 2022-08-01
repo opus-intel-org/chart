@@ -15,7 +15,7 @@ profiles:
     patches:
       - op: replace
         path: /deploy/kubeContext
-        value: gke_valay-prod_us-central1-a_valay
+        value: gke_opus-35814 _us-central1-a_valay
       - op: replace
         path: /deploy/helm/flags
         value:
@@ -34,7 +34,7 @@ profiles:
     patches:
       - op: replace
         path: /deploy/kubeContext
-        value: gke_valay-176920_us-east1-b_valay
+        value: gke_opus-test-358114_us-east1-b_valay
       - op: replace
         path: /deploy/helm/flags
         value:

@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "valay-admin-web.name" . }}
-  namespace: {{ include "valay-admin-web.namespaceName" . }}
+  name: {{ include "opus-admin-web.name" . }}
+  namespace: {{ include "opus-admin-web.namespaceName" . }}
   labels:
-    {{- include "valay-admin-web.labels" . | nindent 4 }}
+    {{- include "opus-admin-web.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "valay-admin-web.selectorLabels" . | nindent 6 }}
+      {{- include "opus-admin-web.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: server
   template:
     metadata:
@@ -20,11 +20,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "valay-admin-web.selectorLabels" . | nindent 8 }}
+        {{- include "opus-admin-web.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: server
     spec:
       shareProcessNamespace: true
-      serviceAccountName: {{ include "valay-admin-web.serviceAccountName" . }}
+      serviceAccountName: {{ include "opus-admin-web.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- with .Values.nodeSelector }}
@@ -40,7 +40,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ include "valay-admin-web.name" . }}
+        - name: {{ include "opus-admin-web.name" . }}
           image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           workingDir: /container-app/server
