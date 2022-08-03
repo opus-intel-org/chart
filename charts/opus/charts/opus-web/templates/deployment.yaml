@@ -79,7 +79,7 @@ spec:
             - secretRef:
                 name: server-http
             - secretRef:
-                name: server-grpc
+                name: server-zmq
             - secretRef:
                 name: google
             - secretRef:

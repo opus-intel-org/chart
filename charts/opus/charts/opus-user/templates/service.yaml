@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: TCP
       appProtocol: http
-    - port: {{ .Values.serviceGrpc.port }}
+    - port: {{ .Values.serviceZmq.port }}
       name: grpc
       protocol: TCP
       appProtocol: grpc

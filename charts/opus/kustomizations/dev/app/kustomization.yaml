@@ -128,10 +128,10 @@ secretGenerator:
     envs:
       - env/server-http.env
 
-  - name: server-grpc
+  - name: server-zmq
     namespace: opus-authentication
     envs:
-      - env/server-grpc.env
+      - env/server-zmq.env
 
   - name: jwt
     namespace: opus-authentication
@@ -164,10 +164,10 @@ secretGenerator:
     envs:
       - env/server-http.env
 
-  - name: server-grpc
+  - name: server-zmq
     namespace: opus-notification
     envs:
-      - env/server-grpc.env
+      - env/server-zmq.env
 
   - name: sendgrid
     namespace: opus-notification
@@ -205,10 +205,10 @@ secretGenerator:
     envs:
       - env/server-http.env
 
-  - name: server-grpc
+  - name: server-zmq
     namespace: opus-user
     envs:
-      - env/server-grpc.env
+      - env/server-zmq.env
 
   - name: cloudinary
     namespace: opus-user
@@ -251,10 +251,10 @@ secretGenerator:
     envs:
       - env/server-http.env
 
-  - name: server-grpc
+  - name: server-zmq
     namespace: opus-web
     envs:
-      - env/server-grpc.env
+      - env/server-zmq.env
 
   - name: jwt
     namespace: opus-web

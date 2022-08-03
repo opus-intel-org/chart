@@ -59,27 +59,27 @@ spec:
               containerPort: {{ .Values.service.port }}
             - name: grpc
               protocol: TCP
-              containerPort: {{ .Values.serviceGrpc.port }}
+              containerPort: {{ .Values.serviceZmq.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           livenessProbe:
             exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
           readinessProbe:
             exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
           startupProbe:
             exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceGrpc.port }}" ]
+              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
           envFrom:
             - secretRef:
                 name: config
             - secretRef:
                 name: server-http
             - secretRef:
-                name: server-grpc
+                name: server-zmq
             - secretRef:
                 name: mongo-main
             - secretRef:

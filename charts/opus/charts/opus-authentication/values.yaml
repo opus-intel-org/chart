@@ -27,7 +27,7 @@ service:
   type: ClusterIP
   port: 10001
 
-serviceGrpc:
+serviceZmq:
   type: ClusterIP
   port: 10002
 
