@@ -44,7 +44,7 @@ spec:
           image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           workingDir: /container-app/server
-          command: [ "node","dist/main" ]
+          command: [ "node","dist/index.js" ]
           ports:
             - name: http
               protocol: TCP
@@ -56,15 +56,15 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          livenessProbe:
-            exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
-          readinessProbe:
-            exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
-          startupProbe:
-            exec:
-              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]
+{{/*          livenessProbe:*/}}
+{{/*            exec:*/}}
+{{/*              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]*/}}
+{{/*          readinessProbe:*/}}
+{{/*            exec:*/}}
+{{/*              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]*/}}
+{{/*          startupProbe:*/}}
+{{/*            exec:*/}}
+{{/*              command: [ "grpc_health_probe", "-addr=:{{ .Values.serviceZmq.port }}" ]*/}}
           envFrom:
             - secretRef:
                 name: config
