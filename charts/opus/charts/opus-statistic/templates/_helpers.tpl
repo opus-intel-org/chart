@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "opus-admin-web.name" -}}
+{{- define "opus-statistic.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "opus-admin-web.fullname" -}}
+{{- define "opus-statistic.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "opus-admin-web.chart" -}}
+{{- define "opus-statistic.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "opus-admin-web.labels" -}}
-helm.sh/chart: {{ include "opus-admin-web.chart" . }}
-{{ include "opus-admin-web.selectorLabels" . }}
+{{- define "opus-statistic.labels" -}}
+helm.sh/chart: {{ include "opus-statistic.chart" . }}
+{{ include "opus-statistic.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "opus-admin-web.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "opus-admin-web.name" . }}
+{{- define "opus-statistic.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "opus-statistic.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "opus-admin-web.serviceAccountName" -}}
+{{- define "opus-statistic.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "opus-admin-web.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "opus-statistic.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -64,7 +64,6 @@ Create the name of the service account to use
 {{/*
 namespace to use
 */}}
-{{- define "opus-admin-web.namespaceName" -}}
+{{- define "opus-statistic.namespaceName" -}}
 {{ .Release.Namespace }}-{{ include "opus.name" . }}
 {{- end }}
-

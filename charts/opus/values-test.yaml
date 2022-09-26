@@ -96,6 +96,27 @@ opus-user:
       cpu: 1000m
       memory: 150M
 
+opus-statistic:
+  image:
+    repository: docker.io/opusintel/statistic
+    pullPolicy: Always
+    tag: test
+  nodeSelector:
+    "cloud.google.com/gke-nodepool": app
+  tolerations:
+    - key: "app/app-reserved"
+      operator: Exists
+      effect: NoSchedule
+  autoscaling:
+    enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100M
+    limits:
+      cpu: 1000m
+      memory: 150M
+
 opus-web:
   image:
     repository: docker.io/opusintel/web

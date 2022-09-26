@@ -7,4 +7,5 @@ resources:
   - opus-notification-namespace.yaml
   - opus-setup-namespace.yaml
   - opus-user-namespace.yaml
+  - opus-statistic-namespace.yaml
   - opus-web-namespace.yaml

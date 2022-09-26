@@ -1,13 +1,13 @@
 replicaCount: 1
 
 image:
-  repository: admin-web
+  repository: statistic
   pullPolicy: IfNotPresent
   tag: latest
 
 imagePullSecrets:
   - name: docker-registry-auth
-nameOverride: admin-web
+nameOverride: statistic
 fullnameOverride: ""
 
 serviceAccount:
@@ -26,6 +26,10 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 10001
+
+serviceZmq:
+  type: ClusterIP
+  port: 10002
 
 resources: {}
 

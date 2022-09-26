@@ -224,6 +224,53 @@ secretGenerator:
     namespace: opus-user
     envs:
       - env/firebase.env
+
+  #-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-statistic
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: storage-service-account
+    namespace: opus-statistic
+    files:
+      - files/storage-service-account-key.json
+
+  - name: config
+    namespace: opus-statistic
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-statistic
+    envs:
+      - env/mongo-main.env
+
+  - name: server-http
+    namespace: opus-statistic
+    envs:
+      - env/server-http.env
+
+  - name: server-zmq
+    namespace: opus-statistic
+    envs:
+      - env/server-zmq.env
+
+  - name: cloudinary
+    namespace: opus-statistic
+    envs:
+      - env/cloudinary.env
+
+  - name: google
+    namespace: opus-statistic
+    envs:
+      - env/google.env
+
+  - name: facebook
+    namespace: opus-statistic
+    envs:
+      - env/facebook.env
   #-----------------------------------------------------------------
   - name: docker-registry-auth
     namespace: opus-web

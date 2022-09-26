@@ -2,15 +2,15 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "opus-admin-web.name" . }}
-  namespace: {{ include "opus-admin-web.namespaceName" . }}
+  name: {{ include "opus-statistic.name" . }}
+  namespace: {{ include "opus-statistic.namespaceName" . }}
   labels:
-    {{- include "opus-admin-web.labels" . | nindent 4 }}
+    {{- include "opus-statistic.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "opus-admin-web.name" . }}
+    name: {{ include "opus-statistic.name" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
