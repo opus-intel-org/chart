@@ -7,4 +7,4 @@ metadata:
     helm.sh/hook: post-install,post-upgrade
 spec:
   domains:
-    - test.opus.com
+    - test.opusintel.co

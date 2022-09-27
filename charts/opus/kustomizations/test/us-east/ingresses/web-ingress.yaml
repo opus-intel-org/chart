@@ -9,7 +9,7 @@ metadata:
     networking.gke.io/managed-certificates: "web"
 spec:
   rules:
-    - host: test.opus.com
+    - host: test.opusintel.co
       http:
         paths:
           - path: "/*"
