@@ -3,6 +3,25 @@ entries:
   opus:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2022-09-27T16:38:54.586804817Z"
+    dependencies:
+    - alias: mongo-main
+      condition: mongo-main.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.1.15
+    description: A Helm chart for Kubernetes
+    digest: 7216ea68e938824f62c1efb5fbd60cc4ebf5140ebac1acaa2e0c79820ea28040
+    icon: https://www.opus.com/favicon.png
+    maintainers:
+    - name: moadw
+    name: opus
+    type: application
+    urls:
+    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.5/opus-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2022-08-01T21:54:21.014797495Z"
     dependencies:
     - alias: mongo-main
@@ -58,4 +77,4 @@ entries:
     urls:
     - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.2/opus-0.1.2.tgz
     version: 0.1.2
-generated: "2022-08-01T21:54:21.014819296Z"
+generated: "2022-09-27T16:38:54.586824017Z"
