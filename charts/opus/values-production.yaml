@@ -1,5 +1,5 @@
 image:
-  repository: docker.io/opusintel/setup
+  repository: docker.io/opusmvp/setup
   tag: 1.0.0
 nodeSelector:
   "cloud.google.com/gke-nodepool": app
@@ -13,7 +13,7 @@ mongo-main:
 
 opus-admin-web:
   image:
-    repository: docker.io/opusintel/admin-web
+    repository: docker.io/opusmvp/admin-web
     tag: 1.0.0
   nodeSelector:
     "cloud.google.com/gke-nodepool": app
@@ -33,7 +33,7 @@ opus-admin-web:
 
 opus-authentication:
   image:
-    repository: docker.io/opusintel/authentication
+    repository: docker.io/opusmvp/authentication
     tag: 1.0.0
   nodeSelector:
     "cloud.google.com/gke-nodepool": app
@@ -53,7 +53,7 @@ opus-authentication:
 
 opus-notification:
   image:
-    repository: docker.io/opusintel/notification
+    repository: docker.io/opusmvp/notification
     tag: 1.0.0
   nodeSelector:
     "cloud.google.com/gke-nodepool": app
@@ -73,7 +73,7 @@ opus-notification:
 
 opus-user:
   image:
-    repository: docker.io/opusintel/user
+    repository: docker.io/opusmvp/user
     tag: 1.0.0
   nodeSelector:
     "cloud.google.com/gke-nodepool": app
@@ -93,7 +93,7 @@ opus-user:
 
 opus-web:
   image:
-    repository: docker.io/opusintel/web
+    repository: docker.io/opusmvp/web
     tag: 1.0.0
   nodeSelector:
     "cloud.google.com/gke-nodepool": app
