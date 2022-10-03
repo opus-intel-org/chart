@@ -22,10 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@v0.3.0
+      - uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{secrets.GCLOUD_KEY_TEST}}
+      - uses: google-github-actions/setup-gcloud@v0
         with:
           version: ${{env.APP_GCLOUD_VERSION}}
-          service_account_key: ${{secrets.GCLOUD_KEY_TEST}}
           project_id: ${{secrets.GCLOUD_PROJECT_ID_TEST}}
       - run: (cd /bin && sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v${APP_KUBECTL_VERSION}/bin/linux/amd64/kubectl && sudo chmod +x kubectl)
       - run: (cd /bin && sudo curl -Lo helm.tar.gz https://get.helm.sh/helm-v${APP_HELM_VERSION}-linux-amd64.tar.gz && sudo tar -zxf helm.tar.gz && sudo mv linux-amd64/helm ./helm)
