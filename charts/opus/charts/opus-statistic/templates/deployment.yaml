@@ -83,8 +83,6 @@ spec:
             - secretRef:
                 name: mongo-main
             - secretRef:
-                name: cloudinary
-            - secretRef:
-                name: google
-            - secretRef:
                 name: facebook
+            - secretRef:
+                name: apollo-studio-statistic

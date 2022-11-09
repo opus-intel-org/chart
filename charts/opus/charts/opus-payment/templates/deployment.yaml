@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "opus-user.name" . }}
-  namespace: {{ include "opus-user.namespaceName" . }}
+  name: {{ include "opus-payment.name" . }}
+  namespace: {{ include "opus-payment.namespaceName" . }}
   labels:
-    {{- include "opus-user.labels" . | nindent 4 }}
+    {{- include "opus-payment.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "opus-user.selectorLabels" . | nindent 6 }}
+      {{- include "opus-payment.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: server
   template:
     metadata:
@@ -20,11 +20,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "opus-user.selectorLabels" . | nindent 8 }}
+        {{- include "opus-payment.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: server
     spec:
       shareProcessNamespace: true
-      serviceAccountName: {{ include "opus-user.serviceAccountName" . }}
+      serviceAccountName: {{ include "opus-payment.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- with .Values.nodeSelector }}
@@ -44,7 +44,7 @@ spec:
           secret:
             secretName: storage-service-account
       containers:
-        - name: {{ include "opus-user.name" . }}
+        - name: {{ include "opus-payment.name" . }}
           image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           workingDir: /container-app/server
@@ -83,6 +83,6 @@ spec:
             - secretRef:
                 name: mongo-main
             - secretRef:
-                name: firebase
+                name: stripe
             - secretRef:
-                name: apollo-studio-user
+                name: apollo-studio-payment

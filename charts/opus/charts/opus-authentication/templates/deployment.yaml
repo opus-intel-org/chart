@@ -39,12 +39,20 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: storage-service-account
+          secret:
+            secretName: storage-service-account
       containers:
         - name: {{ include "opus-authentication.name" . }}
           image: {{ .Values.image.repository }}{{ if .Values.image.tag }}:{{ end }}{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           workingDir: /container-app/server
           command: [ "node","dist/index.js" ]
+          volumeMounts:
+            - name: storage-service-account
+              mountPath: "/container-app/secrets"
+              readOnly: true
           ports:
             - name: http
               protocol: TCP
@@ -78,3 +86,5 @@ spec:
                 name: mongo-sessions
             - secretRef:
                 name: jwt
+            - secretRef:
+                name: google

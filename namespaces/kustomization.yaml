@@ -8,4 +8,5 @@ resources:
   - opus-setup-namespace.yaml
   - opus-user-namespace.yaml
   - opus-statistic-namespace.yaml
+  - opus-payment-namespace.yaml
   - opus-web-namespace.yaml

@@ -1,0 +1,7 @@
+release
+{{ .Release | toPrettyJson }}
+
+chart
+{{ .Chart | toPrettyJson }}
+
+

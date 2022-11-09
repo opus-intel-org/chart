@@ -75,6 +75,9 @@ profiles:
           "opus-statistic":
             image:
               tag: ""
+          "opus-payment":
+            image:
+              tag: ""
           "opus-web":
             image:
               tag: ""
@@ -95,6 +98,9 @@ profiles:
             image:
               tag: ""
           "opus-statistic":
+            image:
+              tag: ""
+          "opus-payment":
             image:
               tag: ""
           "opus-web":
@@ -119,6 +125,9 @@ profiles:
           "opus-statistic":
             image:
               repository: opus-statistic
+          "opus-payment":
+            image:
+              repository: opus-payment
           "opus-web":
             image:
               repository: opus-web
@@ -149,6 +158,11 @@ build:
           BUILDKIT_INLINE_CACHE: "1"
     - image: opus-statistic
       context: ../opus/statistic
+      docker:
+        buildArgs:
+          BUILDKIT_INLINE_CACHE: "1"
+    - image: opus-payment
+      context: ../opus/payment
       docker:
         buildArgs:
           BUILDKIT_INLINE_CACHE: "1"

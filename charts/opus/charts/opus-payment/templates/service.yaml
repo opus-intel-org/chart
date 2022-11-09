@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "opus-payment.name" . }}
+  namespace: {{ include "opus-payment.namespaceName" . }}
+  labels:
+    {{- include "opus-payment.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      name: http
+      protocol: TCP
+      appProtocol: http
+    - port: {{ .Values.serviceZmq.port }}
+      name: grpc
+      protocol: TCP
+      appProtocol: grpc
+  selector:
+    {{- include "opus-payment.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: server

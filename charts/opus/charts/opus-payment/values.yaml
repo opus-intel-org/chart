@@ -1,0 +1,47 @@
+replicaCount: 1
+
+image:
+  repository: payment
+  pullPolicy: IfNotPresent
+  tag: latest
+
+imagePullSecrets:
+  - name: docker-registry-auth
+nameOverride: payment
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-3"
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 10001
+
+serviceZmq:
+  type: ClusterIP
+  port: 10002
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 99
+  targetMemoryUtilizationPercentage: 99
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

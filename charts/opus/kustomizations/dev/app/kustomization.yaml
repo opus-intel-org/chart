@@ -108,6 +108,11 @@ secretGenerator:
       - files/.dockerconfigjson
     type: kubernetes.io/dockerconfigjson
 
+  - name: storage-service-account
+    namespace: opus-authentication
+    files:
+      - files/storage-service-account-key.json
+
   - name: config
     namespace: opus-authentication
     envs:
@@ -137,6 +142,11 @@ secretGenerator:
     namespace: opus-authentication
     envs:
       - env/jwt.env
+
+  - name: google
+    namespace: opus-authentication
+    envs:
+      - env/google.env
   #-----------------------------------------------------------------
   - name: docker-registry-auth
     namespace: opus-notification
@@ -225,6 +235,11 @@ secretGenerator:
     envs:
       - env/firebase.env
 
+  - name: apollo-studio-user
+    namespace: opus-user
+    envs:
+      - env/apollo-studio-user.env
+
   #-----------------------------------------------------------------
   - name: docker-registry-auth
     namespace: opus-statistic
@@ -271,6 +286,58 @@ secretGenerator:
     namespace: opus-statistic
     envs:
       - env/facebook.env
+
+  - name: apollo-studio-statistic
+    namespace: opus-statistic
+    envs:
+      - env/apollo-studio-statistic.env
+
+#-----------------------------------------------------------------
+  - name: docker-registry-auth
+    namespace: opus-payment
+    files:
+      - files/.dockerconfigjson
+    type: kubernetes.io/dockerconfigjson
+
+  - name: storage-service-account
+    namespace: opus-payment
+    files:
+      - files/storage-service-account-key.json
+
+  - name: config
+    namespace: opus-payment
+    envs:
+      - env/config.env
+
+  - name: mongo-main
+    namespace: opus-payment
+    envs:
+      - env/mongo-main.env
+
+  - name: server-http
+    namespace: opus-payment
+    envs:
+      - env/server-http.env
+
+  - name: server-zmq
+    namespace: opus-payment
+    envs:
+      - env/server-zmq.env
+
+  - name: google
+    namespace: opus-payment
+    envs:
+      - env/google.env
+
+  - name: stripe
+    namespace: opus-payment
+    envs:
+      - env/stripe.env
+
+  - name: apollo-studio-payment
+    namespace: opus-payment
+    envs:
+      - env/apollo-studio-payment.env
   #-----------------------------------------------------------------
   - name: docker-registry-auth
     namespace: opus-web
