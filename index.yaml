@@ -3,7 +3,7 @@ entries:
   opus:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2022-09-29T20:58:49.926713853Z"
+    created: "2022-11-09T16:40:43.796769986Z"
     dependencies:
     - alias: mongo-main
       condition: mongo-main.enabled
@@ -11,108 +11,13 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 12.1.15
     description: A Helm chart for Kubernetes
-    digest: 8c74e2362e672d9e4772a9d53ad32f432e62b2f531e98a710aa4e21467516d63
+    digest: 0728f1b0cc41ef5642ee75566334dc4629764253965f26ceb69eadaf5cf7c486
     icon: https://www.opus.com/favicon.png
     maintainers:
     - name: moadw
     name: opus
     type: application
     urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.7/opus-0.1.7.tgz
-    version: 0.1.7
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2022-09-27T17:15:06.490900505Z"
-    dependencies:
-    - alias: mongo-main
-      condition: mongo-main.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.1.15
-    description: A Helm chart for Kubernetes
-    digest: 64f4354cb673714a47fa9717e14b515408f5692f17987afc5a4285fdcd89fba7
-    icon: https://www.opus.com/favicon.png
-    maintainers:
-    - name: moadw
-    name: opus
-    type: application
-    urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.6/opus-0.1.6.tgz
-    version: 0.1.6
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2022-09-27T16:38:54.586804817Z"
-    dependencies:
-    - alias: mongo-main
-      condition: mongo-main.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.1.15
-    description: A Helm chart for Kubernetes
-    digest: 7216ea68e938824f62c1efb5fbd60cc4ebf5140ebac1acaa2e0c79820ea28040
-    icon: https://www.opus.com/favicon.png
-    maintainers:
-    - name: moadw
-    name: opus
-    type: application
-    urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.5/opus-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2022-08-01T21:54:21.014797495Z"
-    dependencies:
-    - alias: mongo-main
-      condition: mongo-main.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.1.15
-    description: A Helm chart for Kubernetes
-    digest: f7e95297ee9960b1732b96c9af751beaac6eee7e194b124d1fd3535337472840
-    icon: https://www.opus.com/favicon.png
-    maintainers:
-    - name: moadw
-    name: opus
-    type: application
-    urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.4/opus-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2022-08-01T21:48:37.998953756Z"
-    dependencies:
-    - alias: mongo-main
-      condition: mongo-main.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.1.15
-    description: A Helm chart for Kubernetes
-    digest: 65964d868db57e1849bb64f33bc39bcefd8d98171ed34b054524a1bbb5df671a
-    icon: https://www.opus.com/favicon.png
-    maintainers:
-    - name: moadw
-    name: opus
-    type: application
-    urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.3/opus-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 0.1.0
-    created: "2022-08-01T20:20:57.785405204Z"
-    dependencies:
-    - alias: mongo-main
-      condition: mongo-main.enabled
-      name: mongodb
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.1.15
-    description: A Helm chart for Kubernetes
-    digest: 334e557c2cc54fd79214804fab07150477bdc516362e831d681ab4d04128e42a
-    icon: https://www.opus.com/favicon.png
-    maintainers:
-    - name: moadw
-    name: opus
-    type: application
-    urls:
-    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.2/opus-0.1.2.tgz
-    version: 0.1.2
-generated: "2022-09-29T20:58:49.926738654Z"
+    - https://github.com/opus-intel-org/chart/releases/download/opus-0.1.8/opus-0.1.8.tgz
+    version: 0.1.8
+generated: "2022-11-09T16:40:43.796782986Z"
