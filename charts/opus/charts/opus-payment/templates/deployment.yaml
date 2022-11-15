@@ -82,7 +82,7 @@ spec:
                 name: server-zmq
             - secretRef:
                 name: mongo-main
-            - secretRef:
-                name: stripe
+{{/*            - secretRef:*/}}
+{{/*                name: stripe*/}}
             - secretRef:
                 name: apollo-studio-payment
