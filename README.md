@@ -1,5 +1,6 @@
 # chart
 
+
 ```shell
 kubectl config get-contexts
 for cxt in $(kubectl config get-contexts --no-headers | awk '{print "contexts."$2}' | grep -E --invert-match "docker-"); do kubectl config unset $cxt; done
