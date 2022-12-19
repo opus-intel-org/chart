@@ -10,6 +10,6 @@ icon: "https://www.opus.com/favicon.png"
 dependencies:
   - name: mongodb
     alias: mongo-main
-    version: "12.1.15"
+    version: "13.6.1"
     repository: "https://charts.bitnami.com/bitnami"
     condition: mongo-main.enabled
